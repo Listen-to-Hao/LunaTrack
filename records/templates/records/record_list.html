@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center text-pink">🌸 Menstrual Cycle Records 🌸</h2>
+
+    <div class="record-list">
+        {% for record in records %}
+        <div class="record-card" data-id="{{ record.id }}">
+            <div class="record-content">
+                <p class="record-dates">📅 <strong>{{ record.start_date }} - {{ record.end_date }}</strong></p>
+                
+                <div class="record-info">
+                    <span class="info-item blood">🩸 <strong>Blood:</strong> {{ record.get_blood_volume_display }}</span>
+                    <span class="info-item clotting">🧬 <strong>Clotting:</strong> {{ record.get_clotting_display }}</span>
+                    <span class="info-item mood">😡 <strong>Mood:</strong> {{ record.get_mood_swings_display }}</span>
+                    <span class="info-item stress">😰 <strong>Stress:</strong> {{ record.get_stress_level_display }}</span>
+                </div>
+
+                {% if record.pre_menstrual_symptoms %}
+                <hr class="record-divider">
+                <p><strong>Pre-menstrual Symptoms:</strong> {{ record.pre_menstrual_symptoms|join:", " }}</p>
+                {% endif %}
+                {% if record.menstrual_symptoms %}
+                <hr class="record-divider">
+                <p><strong>Menstrual Symptoms:</strong> {{ record.menstrual_symptoms|join:", " }}</p>
+                {% endif %}
+                {% if record.post_menstrual_symptoms %}
+                <hr class="record-divider">
+                <p><strong>Post-menstrual Symptoms:</strong> {{ record.post_menstrual_symptoms|join:", " }}</p>
+                {% endif %}
+
+                {% if record.symptom_description %}
+                <hr class="record-divider">
+                <p class="record-notes">📝 <strong>Notes:</strong> {{ record.symptom_description }}</p>
+                {% endif %}
+            </div>
+
+            <div class="record-actions">
+                <button class="action-toggle">▼</button>
+                <div class="action-menu">
+                    <button class="edit-btn" data-id="{{ record.id }}">✏️ Edit</button>
+                    <button class="delete-btn text-danger" data-id="{{ record.id }}">🗑️ Delete</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">🌸 No records yet, start tracking your cycle today!</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 🔹 Floating Buttons -->
+<div class="floating-buttons">
+    <button class="btn btn-primary add-btn">➕</button>
+    <button id="search-btn" class="btn btn-secondary search-btn">🔍</button>
+</div>
+
+<!-- ✅ Add / Edit Modal -->
+<div class="modal fade" id="recordModal" tabindex="-1">
+    <div class="modal-dialog modal-lg"> <!-- ✅ 增加宽度 -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🌸 Add/Edit Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="recordForm">
+                <div class="modal-body">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" class="form-control" required>
+
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" class="form-control" required>
+
+                    <label for="blood_volume">Blood Volume:</label>
+                    <select id="blood_volume" name="blood_volume" class="form-control">
+                        <option value="light">Light</option>
+                        <option value="medium">Medium</option>
+                        <option value="heavy">Heavy</option>
+                    </select>
+
+                    <label for="clotting">Clotting:</label>
+                    <select id="clotting" name="clotting" class="form-control">
+                        <option value="none">None</option>
+                        <option value="small">Few Small Clots</option>
+                        <option value="large">Many or Large Clots</option>
+                    </select>
+
+                    <label for="mood_swings">Mood Swings:</label>
+                    <select id="mood_swings" name="mood_swings" class="form-control">
+                        <option value="none">None</option>
+                        <option value="mild">Mild</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="severe">Severe</option>
+                    </select>
+
+                    <label for="stress_level">Stress Level:</label>
+                    <select id="stress_level" name="stress_level" class="form-control">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+
+                    <!-- ✅ Pre-menstrual Symptoms -->
+                    <label>Pre-menstrual Symptoms: <small>(Optional, multiple selections)</small></label>
+                    <div class="symptom-options d-flex flex-wrap">
+                        {% for value, label in symptom_choices %}
+                        <label class="checkbox-inline me-2">
+                            <input type="checkbox" name="pre_menstrual_symptoms" value="{{ value }}"> {{ label }}
+                        </label>
+                        {% endfor %}
+                    </div>
+
+                    <!-- ✅ Menstrual Symptoms -->
+                    <label>Menstrual Symptoms: <small>(Optional, multiple selections)</small></label>
+                    <div class="symptom-options d-flex flex-wrap">
+                        {% for value, label in symptom_choices %}
+                        <label class="checkbox-inline me-2">
+                            <input type="checkbox" name="menstrual_symptoms" value="{{ value }}"> {{ label }}
+                        </label>
+                        {% endfor %}
+                    </div>
+
+                    <!-- ✅ Post-menstrual Symptoms -->
+                    <label>Post-menstrual Symptoms: <small>(Optional, multiple selections)</small></label>
+                    <div class="symptom-options d-flex flex-wrap">
+                        {% for value, label in symptom_choices %}
+                        <label class="checkbox-inline me-2">
+                            <input type="checkbox" name="post_menstrual_symptoms" value="{{ value }}"> {{ label }}
+                        </label>
+                        {% endfor %}
+                    </div>
+
+                    <label for="symptom_description">Additional Notes:</label>
+                    <textarea id="symptom_description" name="symptom_description" class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">✅ Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">❌ Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🔍 Search Records by Month</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label for="searchMonth">Select Month:</label>
+                <input type="month" id="searchMonth" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmSearch" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ✅ Load External CSS -->
+<link rel="stylesheet" href="{% static 'css/record.css' %}">
+<!-- ✅ Load External JS -->
+<script src="{% static 'js/record.js' %}"></script>
+{% endblock %}

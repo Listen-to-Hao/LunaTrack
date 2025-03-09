@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- 🔍 搜索框 -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="form-control search-input" placeholder="Search posts...">
+        <button class="btn btn-search" id="searchBtn">🔍</button>
+    </div>
+
+    <!-- 📜 帖子列表 -->
+    <div id="postList" class="post-list"></div>
+
+    <!-- ⏳ 加载更多 -->
+    <div class="text-center mt-3">
+        <button class="btn btn-load-more" id="loadMoreBtn">Load More</button>
+    </div>
+</div>
+
+<!-- 🌸 发布帖子浮动按钮 -->
+<button class="btn btn-floating" id="addPostBtn">➕</button>
+
+<!-- 🌸 发布帖子模态框 -->
+<div class="modal fade" id="postModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">📝 Create a New Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="postForm">
+                <div class="modal-body">
+                    <label for="postContent">Post Content:</label>
+                    <textarea id="postContent" name="content" class="form-control" required></textarea>
+
+                    <label for="postImages">Upload Image:</label>
+                    <input type="file" id="postImages" name="images" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">✅ Post</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">❌ Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Load External CSS & JS -->
+<link rel="stylesheet" href="{% static 'css/discover.css' %}">
+<script src="{% static 'js/discover.js' %}"></script>
+{% endblock %}

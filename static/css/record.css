@@ -1,0 +1,200 @@
+body {
+    background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
+    font-family: 'Arial', sans-serif;
+}
+.container.mt-4 {
+    width: 80%;
+    max-width: 1200px;
+    min-width: 600px; 
+    margin: 0 auto;
+}
+
+
+.record-card {
+    display: flex;
+    position: relative;
+    flex-direction: column; 
+    background: #fffcf5;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    border-top: 5px solid #ff69b4;
+    margin-bottom: 15px;
+    transition: transform 0.2s ease-in-out;
+    min-width: 600px; 
+    max-width: 100%;  
+    word-wrap: break-word;
+    overflow: hidden; 
+}
+
+.record-info {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.info-item {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    white-space: nowrap; 
+}
+
+.record-actions {
+    position: absolute;
+    right: 10px; 
+    top: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.action-toggle {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.6;
+    color: #ff69b4;
+}
+
+.action-menu {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    min-width: 100px;
+}
+
+.record-actions:hover .action-menu {
+    display: flex;
+}
+
+.action-menu button {
+    border: none;
+    background: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.action-menu button:hover {
+    background: #ffb6c1;
+}
+
+.info-item.blood { background: rgba(173, 216, 230, 0.3); color: #0077b6; }
+.info-item.clotting { background: rgba(221, 160, 221, 0.3); color: #6a0572; }
+.info-item.mood { background: rgba(255, 165, 0, 0.3); color: #ff6600; }
+.info-item.stress { background: rgba(255, 99, 71, 0.3); color: #c1121f; }
+
+.symptom-options {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+    gap: 8px;
+}
+
+.checkbox-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    background: #f8f9fa;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.checkbox-inline:hover {
+    background: #e9ecef;
+}
+
+.checkbox-inline input[type="checkbox"] {
+    margin: 0;
+}
+
+.checkbox-inline label {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.modal-dialog {
+    max-width: 700px;
+    width: 90%;
+}
+
+.modal-body {
+    max-width: 700px;
+    margin: auto;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+.floating-buttons {
+    position: fixed;
+    bottom: 20px;  
+    right: 20px;  
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    z-index: 999; 
+}
+
+.floating-buttons .btn {
+    width: 60px;  
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-color: rgba(0,0,0,0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, background 0.3s;
+}
+
+
+.floating-buttons .btn:hover {
+    transform: scale(1.1);
+}
+
+.add-btn {
+    background-color: #fff2d4; 
+    color: white;
+    border-color: rgba(0,0,0,0);
+}
+
+.add-btn:hover {
+    background-color: #ffd476;
+    border-color: rgba(0,0,0,0) 
+}
+
+.search-btn {
+    background-color: #fff2d4; 
+    color: white;
+    border-color: rgba(0,0,0,0)
+}
+
+.search-btn:hover {
+    background-color: #ffd476; 
+    border-color: rgba(0,0,0,0)
+}
+
+#searchMonth {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}

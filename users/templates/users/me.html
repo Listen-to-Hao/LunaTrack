@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid me-page">
+    <!-- 🌸 个人信息卡片 -->
+    <div class="profile-card">
+        <!-- 头像 -->
+        <div class="profile-section avatar-section">
+            <div class="avatar-container">
+                <img src="{{ user.avatar.url }}" class="profile-avatar">
+            </div>
+        </div>
+
+        <!-- 昵称 & 用户名 -->
+        <div class="profile-section info-section">
+            <h3 class="nickname">{{ user.nickname|default:user.username }}</h3>
+            <p class="text-muted username">@{{ user.username }}</p>
+        </div>
+
+        <!-- 健康信息 -->
+        <div class="profile-section stats-section">
+            <p>
+                <span class="label">Height:</span>
+                <span class="value">{{ user.height|default:"--" }} cm</span>
+            </p>
+            <p>
+                <span class="label">Weight:</span>
+                <span class="value">{{ user.weight|default:"--" }} kg</span>
+            </p>
+            <p>
+                <span class="label">Age:</span>
+                <span class="value">{{ user.get_age_group_display|default:"--" }}</span>
+            </p>
+        </div>
+
+        <!-- 编辑按钮 -->
+        <div class="profile-section edit-section">
+            <button class="btn btn-outline-pink edit-profile" data-bs-toggle="modal" data-bs-target="#editProfileModal">✏️ Edit</button>
+        </div>
+    </div>
+
+    <!-- 🌸 帖子导航栏 -->
+    <nav class="post-tabs">
+        <button class="tab-btn active" data-target="created">📝 My Posts</button>
+        <button class="tab-btn" data-target="liked">❤️ Liked</button>
+        <button class="tab-btn" data-target="commented">💬 Commented</button>
+        <button class="tab-btn" data-target="collected">🔖 Collected</button>
+    </nav>
+
+    <!-- 🌸 帖子内容区域 -->
+    <div class="post-content">
+        <div id="created" class="post-section active">
+            {% if user.created_posts.exists %}
+                {% for post in user.created_posts.all %}
+                    <div class="post-card">{{ post.content }}</div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-posts">🌸 No posts yet. Start sharing your thoughts!</p>
+            {% endif %}
+        </div>
+
+        <div id="liked" class="post-section">
+            {% if user.liked_posts.exists %}
+                {% for post in user.liked_posts.all %}
+                    <div class="post-card">{{ post.content }}</div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-posts">❤️ You haven't liked any posts yet.</p>
+            {% endif %}
+        </div>
+
+        <div id="commented" class="post-section">
+            {% if user.commented_posts.exists %}
+                {% for post in user.commented_posts.all %}
+                    <div class="post-card">{{ post.content }}</div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-posts">💬 No comments yet.</p>
+            {% endif %}
+        </div>
+
+        <div id="collected" class="post-section">
+            {% if user.collected_posts.exists %}
+                {% for post in user.collected_posts.all %}
+                    <div class="post-card">{{ post.content }}</div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-posts">🔖 No collected posts yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- 🌸 编辑个人信息 Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editProfileForm">
+                <div class="modal-body">
+                    <label for="nickname">Nickname:</label>
+                    <input type="text" id="nickname" name="nickname" class="form-control" value="{{ user.nickname }}">
+
+                    <label for="avatar">Avatar:</label>
+                    <input type="file" id="avatar" name="avatar" class="form-control">
+
+                    <label for="height">Height (cm):</label>
+                    <input type="number" id="height" name="height" class="form-control" value="{{ user.height }}">
+
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" class="form-control" value="{{ user.weight }}">
+
+                    <label for="age_group">Age Group:</label>
+                    <select id="age_group" name="age_group" class="form-control">
+                        <option value="teen" {% if user.age_group == "teen" %}selected{% endif %}>Teenager (13-19)</option>
+                        <option value="young_adult" {% if user.age_group == "young_adult" %}selected{% endif %}>Young Adult (20-35)</option>
+                        <option value="middle_aged" {% if user.age_group == "middle_aged" %}selected{% endif %}>Middle-Aged (36-55)</option>
+                        <option value="senior" {% if user.age_group == "senior" %}selected{% endif %}>Senior (56+)</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ Load External CSS & JS -->
+<link rel="stylesheet" href="{% static 'css/me.css' %}">
+<script src="{% static 'js/me.js' %}"></script>
+{% endblock %}

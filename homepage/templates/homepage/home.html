@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container text-center mt-5">
+    <h1>欢迎来到 LunaTrack</h1>
+    <p>您的智能健康管理平台</p>
+    <a href="{% url 'register' %}" class="btn btn-primary">立即注册</a>
+    <a href="{% url 'login' %}" class="btn btn-secondary">登录</a>
+  </div>
+{% endblock %}
