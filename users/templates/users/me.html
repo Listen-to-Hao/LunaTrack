@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid me-page">
+<div class="d-flex flex-column align-items-center">
     <!-- 🌸 个人信息卡片 -->
     <div class="profile-card">
         <!-- 头像 -->
@@ -20,15 +20,15 @@
 
         <!-- 健康信息 -->
         <div class="profile-section stats-section">
-            <p>
+            <p class="sub stats-section">
                 <span class="label">Height:</span>
                 <span class="value">{{ user.height|default:"--" }} cm</span>
             </p>
-            <p>
+            <p class="sub stats-section">
                 <span class="label">Weight:</span>
                 <span class="value">{{ user.weight|default:"--" }} kg</span>
             </p>
-            <p>
+            <p class="sub stats-section">
                 <span class="label">Age:</span>
                 <span class="value">{{ user.get_age_group_display|default:"--" }}</span>
             </p>
@@ -36,59 +36,21 @@
 
         <!-- 编辑按钮 -->
         <div class="profile-section edit-section">
-            <button class="btn btn-outline-pink edit-profile" data-bs-toggle="modal" data-bs-target="#editProfileModal">✏️ Edit</button>
+            <button class="btn btn-outline-pink edit-profile">Edit</button>
         </div>
     </div>
 
     <!-- 🌸 帖子导航栏 -->
     <nav class="post-tabs">
-        <button class="tab-btn active" data-target="created">📝 My Posts</button>
-        <button class="tab-btn" data-target="liked">❤️ Liked</button>
-        <button class="tab-btn" data-target="commented">💬 Commented</button>
-        <button class="tab-btn" data-target="collected">🔖 Collected</button>
+        <button class="tab-btn active" data-target="created">My Posts</button>
+        <button class="tab-btn" data-target="liked">Liked</button>
+        <button class="tab-btn" data-target="commented">Commented</button>
+        <button class="tab-btn" data-target="collected">Collected</button>
     </nav>
 
-    <!-- 🌸 帖子内容区域 -->
+    <!-- 🌸 帖子内容区域（动态更新） -->
     <div class="post-content">
-        <div id="created" class="post-section active">
-            {% if user.created_posts.exists %}
-                {% for post in user.created_posts.all %}
-                    <div class="post-card">{{ post.content }}</div>
-                {% endfor %}
-            {% else %}
-                <p class="empty-posts">🌸 No posts yet. Start sharing your thoughts!</p>
-            {% endif %}
-        </div>
-
-        <div id="liked" class="post-section">
-            {% if user.liked_posts.exists %}
-                {% for post in user.liked_posts.all %}
-                    <div class="post-card">{{ post.content }}</div>
-                {% endfor %}
-            {% else %}
-                <p class="empty-posts">❤️ You haven't liked any posts yet.</p>
-            {% endif %}
-        </div>
-
-        <div id="commented" class="post-section">
-            {% if user.commented_posts.exists %}
-                {% for post in user.commented_posts.all %}
-                    <div class="post-card">{{ post.content }}</div>
-                {% endfor %}
-            {% else %}
-                <p class="empty-posts">💬 No comments yet.</p>
-            {% endif %}
-        </div>
-
-        <div id="collected" class="post-section">
-            {% if user.collected_posts.exists %}
-                {% for post in user.collected_posts.all %}
-                    <div class="post-card">{{ post.content }}</div>
-                {% endfor %}
-            {% else %}
-                <p class="empty-posts">🔖 No collected posts yet.</p>
-            {% endif %}
-        </div>
+        <p class="empty-posts">🌸 Loading posts...</p>
     </div>
 </div>
 
@@ -131,7 +93,36 @@
     </div>
 </div>
 
+<!-- 🌸 编辑健康信息 Modal -->
+<div class="modal fade" id="editHealthModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Health Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editHealthForm">
+                <div class="modal-body">
+                    <label for="blood_pressure">Blood Pressure:</label>
+                    <input type="text" id="blood_pressure" name="blood_pressure" class="form-control" value="{{ user.blood_pressure|default:'' }}">
+
+                    <label for="heart_rate">Heart Rate:</label>
+                    <input type="text" id="heart_rate" name="heart_rate" class="form-control" value="{{ user.heart_rate|default:'' }}">
+
+                    <label for="medical_history">Medical History:</label>
+                    <textarea id="medical_history" name="medical_history" class="form-control">{{ user.medical_history|default:'' }}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- ✅ Load External CSS & JS -->
 <link rel="stylesheet" href="{% static 'css/me.css' %}">
 <script src="{% static 'js/me.js' %}"></script>
+
 {% endblock %}

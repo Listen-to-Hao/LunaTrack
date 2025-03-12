@@ -1,15 +1,28 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
+from django.core.exceptions import ValidationError
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, help_text="Required. Enter a valid email address.")
     nickname = forms.CharField(max_length=50, required=False, help_text="Optional nickname")
 
     class Meta:
         model = UserProfile
         fields = ["username", "nickname", "email", "password1", "password2"]
 
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if UserProfile.objects.filter(email=email).exists():
+            raise ValidationError("This email is already registered.")
+        return email
+
+    def clean_password1(self):
+        password1 = self.cleaned_data.get("password1")
+        if len(password1) < 8:
+            raise ValidationError("Password must be at least 8 characters long.")
+        return password1
+    
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile

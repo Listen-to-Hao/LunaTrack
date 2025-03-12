@@ -1,15 +1,35 @@
+/* 🌸 页面背景 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
+    background-attachment: fixed;
     font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 .container.mt-4 {
-    width: 80%;
-    max-width: 1200px;
-    min-width: 600px; 
-    margin: 0 auto;
+    width: 90%;
+    max-width: 950px;
+    padding: 20px;
 }
+.content_page{
+    margin-top: 50px;
+}
+.text-center{
+    margin-bottom: 20px;
+    color: #ff69b4; 
+    font-family: "Comic Sans MS", "Patrick Hand", "Cute Font", "Quicksand", cursive;
+    font-weight: bold; 
+    font-size: 1.5em; 
+    text-shadow: 2px 2px 4px rgba(255, 182, 193, 0.5); 
 
-
+}
 .record-card {
     display: flex;
     position: relative;
@@ -20,11 +40,15 @@ body {
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
     border-top: 5px solid #ff69b4;
     margin-bottom: 15px;
-    transition: transform 0.2s ease-in-out;
-    min-width: 600px; 
-    max-width: 100%;  
+    transition: transform 0.2s ease-in-out; 
+    width: 100%;  
     word-wrap: break-word;
     overflow: hidden; 
+}
+@media (max-width: 768px) {
+    .record-card {
+        padding: 10px; 
+    }
 }
 
 .record-info {
@@ -40,7 +64,7 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     font-weight: bold;
-    white-space: nowrap; 
+    white-space: normal; 
 }
 
 .record-actions {
@@ -50,6 +74,14 @@ body {
     display: flex;
     flex-direction: row;
     gap: 5px;
+}
+
+@media (max-width: 768px) {
+    .record-actions {
+        position: static; 
+        justify-content: flex-end; 
+        margin-top: 10px; 
+    }
 }
 
 .action-toggle {
@@ -154,8 +186,8 @@ body {
 }
 
 .floating-buttons .btn {
-    width: 60px;  
-    height: 60px;
+    width: 50px;  
+    height: 50px;
     border-radius: 50%;
     font-size: 24px;
     display: flex;

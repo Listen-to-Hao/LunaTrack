@@ -1,0 +1,41 @@
+<!-- post_card.html -->
+<div class="post-card">
+    <div class="post-header">
+        <img src="{{ post.author.avatar.url }}" class="post-avatar">
+        <span class="post-author">{{ post.author.nickname|default:post.author.username }}</span>
+        <span class="post-date">{{ post.created_at|date:"Y-m-d H:i" }}</span>
+    </div>
+    <div class="post-content">{{ post.content }}</div>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" class="post-image">
+    {% endif %}
+    <div class="post-actions">
+        <button class="like-btn" data-post-id="{{ post.id }}">❤️ {{ post.liked_by.count }}</button>
+        <button class="comment-btn" data-post-id="{{ post.id }}">💬 {{ post.comments.count }}</button>
+        <button class="collect-btn" data-post-id="{{ post.id }}">🔖 {{ post.collected_by.count }}</button>
+        {% if post.author == user %}
+            <button class="btn btn-danger delete-post-btn" data-post-id="{{ post.id }}">🗑️ Delete</button>
+        {% endif %}
+    </div>
+    <!-- 评论区 -->
+    <div class="comment-section" id="comments-{{ post.id }}" style="display: none;">
+        <div class="comment-list">
+            {% for comment in post.comments.all %}
+                <div class="comment">
+                    <span class="comment-author">{{ comment.author.nickname|default:comment.author.username }}</span>
+                    <span class="comment-content">{{ comment.content }}</span>
+                    <span class="comment-date">{{ comment.created_at|date:"Y-m-d H:i" }}</span>
+                    {% if comment.author == user %}
+                        <button class="btn btn-danger delete-comment-btn" data-comment-id="{{ comment.id }}">🗑️ Delete</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {% if user.is_authenticated %}
+            <textarea class="comment-input" placeholder="Write a comment..." data-post-id="{{ post.id }}"></textarea>
+            <button class="submit-comment-btn" data-post-id="{{ post.id }}">Submit</button>
+        {% else %}
+            <p class="text-muted">🔒 Log in to comment.</p>
+        {% endif %}
+    </div>
+</div>

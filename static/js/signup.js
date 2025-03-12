@@ -20,8 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!valid) event.preventDefault(); // Stop form submission if invalid
     });
-
-    // Remove error styles on input
+    
     fields.forEach(field => {
         field.addEventListener("input", function () {
             let errorDiv = field.closest(".mb-3").querySelector(".error-message");
