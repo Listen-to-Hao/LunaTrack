@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ✅ **修正 resetForm 未定义错误**
+    // ✅ 重置表单
     function resetForm() {
         document.getElementById("recordForm").reset();
     }
@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         document.getElementById("clotting").value = data.clotting;
                         document.getElementById("mood_swings").value = data.mood_swings;
                         document.getElementById("stress_level").value = data.stress_level;
+                        document.getElementById("weight").value = data.weight; // 加载体重数据
                         document.getElementById("symptom_description").value = data.symptom_description;
                         modal.show();
                     } else {
@@ -175,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // ✅ 表单提交
     recordForm.addEventListener("submit", function (event) {
         event.preventDefault();
         let formData = new FormData(recordForm);

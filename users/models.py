@@ -7,7 +7,6 @@ class UserProfile(AbstractUser):
     email = models.EmailField(unique=True)
 
     height = models.FloatField(blank=True, null=True, verbose_name="Height (cm)")
-    weight = models.FloatField(blank=True, null=True, verbose_name="Weight (kg)")
 
     AGE_GROUPS = [
         ("teen", "Teenager (13-19)"),

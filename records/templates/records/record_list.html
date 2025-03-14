@@ -13,6 +13,7 @@
                 
                 <div class="record-info">
                     <span class="info-item blood">🩸 <strong>Blood:</strong> {{ record.get_blood_volume_display }}</span>
+                    <span class="info-item weight">📊 <strong>Weight:</strong> {{ record.weight }} kg</span> <!-- 添加体重信息 -->
                     <span class="info-item clotting">🧬 <strong>Clotting:</strong> {{ record.get_clotting_display }}</span>
                     <span class="info-item mood">😡 <strong>Mood:</strong> {{ record.get_mood_swings_display }}</span>
                     <span class="info-item stress">😰 <strong>Stress:</strong> {{ record.get_stress_level_display }}</span>
@@ -59,7 +60,7 @@
 
 <!-- ✅ Add / Edit Modal -->
 <div class="modal fade" id="recordModal" tabindex="-1">
-    <div class="modal-dialog modal-lg"> <!-- ✅ 增加宽度 -->
+    <div class="modal-dialog modal-lg"> 
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">🌸 Add/Edit Record</h5>
@@ -79,6 +80,10 @@
                         <option value="medium">Medium</option>
                         <option value="heavy">Heavy</option>
                     </select>
+
+                    <!-- 添加体重输入字段 -->
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" name="weight" class="form-control" step="0.1" required>
 
                     <label for="clotting">Clotting:</label>
                     <select id="clotting" name="clotting" class="form-control">
@@ -162,8 +167,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- ✅ Load External CSS -->
 <link rel="stylesheet" href="{% static 'css/record.css' %}">

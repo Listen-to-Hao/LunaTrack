@@ -120,10 +120,30 @@ body {
     background: #ffb6c1;
 }
 
-.info-item.blood { background: rgba(173, 216, 230, 0.3); color: #0077b6; }
-.info-item.clotting { background: rgba(221, 160, 221, 0.3); color: #6a0572; }
-.info-item.mood { background: rgba(255, 165, 0, 0.3); color: #ff6600; }
-.info-item.stress { background: rgba(255, 99, 71, 0.3); color: #c1121f; }
+.info-item.blood { 
+    background: rgba(173, 216, 230, 0.2); 
+    color: #005f73; 
+}
+
+.info-item.clotting { 
+    background: rgba(186, 85, 211, 0.2); 
+    color: #5a026e; 
+}
+
+.info-item.mood { 
+    background: rgba(255, 165, 0, 0.2); 
+    color: #d35400; 
+}
+
+.info-item.stress { 
+    background: rgba(255, 99, 71, 0.2); 
+    color: #9b1c1c; 
+}
+
+.info-item.weight { 
+    background: rgba(144, 238, 144, 0.2); 
+    color: #2e7d32; 
+}
 
 .symptom-options {
     display: flex;

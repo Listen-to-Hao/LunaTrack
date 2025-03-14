@@ -24,8 +24,6 @@ body {
 .d-flex{
     margin-top: 50px;
 }
-
-
 .post-card {
     background: #fffcf5;
     padding: 15px;
@@ -348,4 +346,26 @@ body {
     .btn-search {
         width: 100%;
     }
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #666;
+}
+
+.google-search-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4285F4;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.google-search-link:hover {
+    background-color: #357ABD;
 }

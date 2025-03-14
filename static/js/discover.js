@@ -49,7 +49,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 if (data.posts.length === 0 && isSearch) {
-                    postList.innerHTML = `<div class="no-results">The content you are looking for is not found.</div>`;
+                    // 显示没有找到内容的提示
+                    postList.innerHTML = `
+                        <div class="no-results">
+                            <p>The content you are looking for is not found.</p>
+                            <p>Try searching on Google:</p>
+                            <a href="https://www.google.com/search?q=${encodeURIComponent(searchQuery)}" target="_blank" class="google-search-link">
+                                Search "${searchQuery}" on Google
+                            </a>
+                        </div>
+                    `;
                     loadMoreBtn.style.display = "none";
                 } else {
                     data.posts.forEach(post => {
@@ -306,6 +315,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    /** ✅ 加载帖子 **/
+    /** ✅ 初始化加载帖子 **/
     loadPosts();
 });

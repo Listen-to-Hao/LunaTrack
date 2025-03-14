@@ -5,7 +5,8 @@ class MenstrualRecord(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     start_date = models.DateField(verbose_name="Start Date")
     end_date = models.DateField(verbose_name="End Date")
-
+    weight = models.FloatField(verbose_name="Weight (kg)")
+    
     BLOOD_VOLUME_CHOICES = [('light', 'Light'), ('medium', 'Medium'), ('heavy', 'Heavy')]
     blood_volume = models.CharField(max_length=10, choices=BLOOD_VOLUME_CHOICES, verbose_name="Blood Volume", default='medium')
 

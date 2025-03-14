@@ -26,18 +26,17 @@ class RegisterForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ["avatar", "nickname", "height", "weight", "age_group"]
+        fields = ["avatar", "nickname", "height", "age_group"]
 
 class EditProfileForm(forms.ModelForm):
     avatar = forms.ImageField(required=False)  # ✅ 允许头像不更改
     nickname = forms.CharField(required=False)
     height = forms.FloatField(required=False)
-    weight = forms.FloatField(required=False)
     age_group = forms.ChoiceField(choices=UserProfile.AGE_GROUPS, required=False)
 
     class Meta:
         model = UserProfile
-        fields = ["nickname", "avatar", "height", "weight", "age_group"]
+        fields = ["nickname", "avatar", "height", "age_group"]
 
     def clean_avatar(self):
         """ 确保用户不上传头像时不会清空字段 """
@@ -59,13 +58,6 @@ class EditProfileForm(forms.ModelForm):
         if height is None:
             return self.instance.height
         return height
-
-    def clean_weight(self):
-        """ 允许 weight 为空 """
-        weight = self.cleaned_data.get("weight")
-        if weight is None:
-            return self.instance.weight
-        return weight
 
     def clean_age_group(self):
         """ 允许 age_group 为空 """

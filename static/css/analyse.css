@@ -1,0 +1,144 @@
+/* 🌸 页面背景 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
+    background-attachment: fixed;
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container.mt-4 {
+    width: 90%;
+    max-width: 950px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    
+}
+
+.analyse{
+    margin-top: 50px;
+}
+/* 🌟 标题样式 */
+h3 {
+    color: #e76f51;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+h2 {
+    color: #ff8d71;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "Comic Sans MS", "Patrick Hand", "Cute Font", "Quicksand", cursive;
+    font-weight: bold;
+    font-size: 2em;
+    text-shadow: 2px 2px 4px rgba(244, 255, 97, 0.5);
+}
+
+/* 🩸 分析卡片 */
+.analysis-card {
+    background: #fef5f5;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 📊 图表居中 */
+.chart-container {
+    width: 100%;
+    min-height: 300px; 
+    margin: 0 auto;
+    overflow-x: auto; 
+}
+
+canvas {
+    display: block;
+    width: 100% !important; 
+    height: auto !important; 
+    min-height: 300px; 
+}
+
+/* ⚠️ 提示信息 */
+.alert {
+    text-align: center;
+    background: #ffebcc;
+    color: #d62828;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* 🔥 建议列表 */
+.suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.suggestions li {
+    background: #fff3e0;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: #d84315;
+}
+
+.no-suggestions {
+    text-align: center;
+    color: #4caf50;
+    font-weight: bold;
+}
+
+/* 🔥 响应式设计 */
+@media (max-width: 768px) {
+    .container.mt-4 {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    h3 {
+        font-size: 1.3em;
+    }
+
+    .analysis-card {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    canvas {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.2em;
+    }
+
+    .analysis-card {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    canvas {
+        min-height: 200px;
+    }
+}

@@ -1,6 +1,47 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-<h2>📊 健康分析</h2>
-<p>这里将展示你的周期数据分析。</p>
+
+<link rel="stylesheet" href="{% static 'css/analyse.css' %}">
+
+<div class="analyse">
+    <h2>Menstrual Health Analysis</h2>
+
+    {% for key, data in analysis_data.items %}
+        {% if data.error %}
+            <div class="alert">⚠️ {{ data.error }}</div>
+        {% else %}
+            <div class="analysis-card">
+                <h3>
+                    {% if key == "cycle_analysis" %}📅 Menstrual Cycle Regularity
+                    {% elif key == "blood_analysis" %}🩸 Blood Flow Trends
+                    {% elif key == "symptom_analysis" %}🤒 Symptom Trends
+                    {% elif key == "weight_analysis" %}🧘‍♀️ Weight Trends
+                    {% elif key == "mood_analysis" %}😰 Mood and Stress Trends
+                    {% endif %}
+                </h3>
+
+                <canvas id="{{ key }}Chart"></canvas>
+
+                <script id="{{ key }}Data" type="application/json">
+                    {{ data.json_data|safe }}
+                </script>
+
+                {% if data.suggestions %}
+                    <ul class="suggestions">
+                        {% for suggestion in data.suggestions %}
+                            <li>⚠️ {{ suggestion }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="no-suggestions">✅ Everything looks good!</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/analyse.js' %}"></script>
+
 {% endblock %}
