@@ -7,6 +7,7 @@
 <div class="analyse">
     <h2>Menstrual Health Analysis</h2>
 
+    <!-- 显示每个分析模块 -->
     {% for key, data in analysis_data.items %}
         {% if data.error %}
             <div class="alert">⚠️ {{ data.error }}</div>
@@ -21,12 +22,15 @@
                     {% endif %}
                 </h3>
 
+                <!-- 图表容器 -->
                 <canvas id="{{ key }}Chart"></canvas>
 
+                <!-- 传递数据给前端 -->
                 <script id="{{ key }}Data" type="application/json">
                     {{ data.json_data|safe }}
                 </script>
 
+                <!-- 显示建议 -->
                 {% if data.suggestions %}
                     <ul class="suggestions">
                         {% for suggestion in data.suggestions %}
@@ -39,8 +43,26 @@
             </div>
         {% endif %}
     {% endfor %}
+
+    <!-- 基于症状的健康建议 -->
+    <div class="symptom-recommendations">
+        <h3>Health Recommendations Based on Your Symptoms</h3>
+        {% if symptom_recommendations %}
+            <ul>
+                {% for result in symptom_recommendations %}
+                    <li>
+                        <a href="{{ result.link }}" target="_blank">{{ result.title }}</a>
+                        <p>{{ result.snippet }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No recommendations available based on your recorded symptoms.</p>
+        {% endif %}
+    </div>
 </div>
 
+<!-- 引入 Chart.js 和自定义脚本 -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'js/analyse.js' %}"></script>
 

@@ -125,4 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
             cycleCard.appendChild(nextPeriodInfo);
         }
     });
+    // ✅ 显示基于症状的健康建议
+    const symptomRecommendations = document.querySelector(".symptom-recommendations ul");
+    if (symptomRecommendations) {
+        symptomRecommendations.querySelectorAll("li").forEach(li => {
+            li.style.backgroundColor = "#e9f5ff";
+            li.style.padding = "10px";
+            li.style.borderRadius = "5px";
+            li.style.marginBottom = "10px";
+        });
+    }
 });

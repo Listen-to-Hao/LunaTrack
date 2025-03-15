@@ -4,6 +4,25 @@ from datetime import timedelta
 import numpy as np
 from records.models import MenstrualRecord
 import json
+from googleapiclient.discovery import build
+
+def search_symptoms(keyword):
+    """调用Google Search API获取健康建议"""
+    api_key = "AIzaSyBATyhquphIGMpRAlJtYUZZfzI9IDDdQUs"  # 替换为你的API Key
+    search_engine_id = "f5688f439efbf455f"  # 替换为你的Search Engine ID
+
+    try:
+        service = build("customsearch", "v1", developerKey=api_key)
+        res = service.cse().list(
+            q=keyword,
+            cx=search_engine_id,
+            num=3,  # 限制每次请求返回3条结果
+        ).execute()
+        print(f"API Response for '{keyword}':", res)  # 打印 API 响应
+        return res.get("items", [])
+    except Exception as e:
+        print(f"❌ API Error for '{keyword}':", e)  # 打印错误信息
+        return []
 
 # 🔹 计算月经周期规律性
 def analyze_cycle_regularity(user):
@@ -164,5 +183,52 @@ def analyse_view(request):
         # ✅ 预先转换为 JSON 以避免前端解析问题
         if not value.get("error"):
             value["json_data"] = json.dumps(value)
+        
+    
+    # 提取症状数据
+    twelve_months_ago = now().date() - timedelta(days=365)
+    records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
-    return render(request, "analyse/analyse.html", {"analysis_data": analysis_data})
+    symptom_keywords = set()
+    for record in records:
+        # 过滤掉 "other"
+        symptoms = [
+            symptom for symptom in record.pre_menstrual_symptoms + record.menstrual_symptoms + record.post_menstrual_symptoms
+            if symptom != "other"
+        ]
+        symptom_keywords.update(symptoms)
+        if record.symptom_description and record.symptom_description.lower() != "other":
+            symptom_keywords.add(record.symptom_description)
+
+    # 扩展关键词
+    extended_keywords = set()
+    for keyword in symptom_keywords:
+        extended_keywords.add(keyword)
+        if keyword == "headache":
+            extended_keywords.add("menstrual headache relief")
+        elif keyword == "bloating":
+            extended_keywords.add("how to reduce bloating during period")
+        elif keyword == "fatigue":
+            extended_keywords.add("causes of fatigue during menstruation")
+        elif keyword == "nausea":
+            extended_keywords.add("nausea during period causes")
+        elif keyword == "mood_swings":
+            extended_keywords.add("how to manage mood swings during period")
+
+    # 调用 API 获取健康建议
+    search_results = []
+    for keyword in extended_keywords:
+        results = search_symptoms(keyword)
+        search_results.extend(results)
+
+    # 去重和过滤
+    unique_results = {result["link"]: result for result in search_results}.values()
+    filtered_results = [
+        result for result in unique_results
+        if "menstrual" in result["title"].lower() or "period" in result["title"].lower()
+    ]
+
+    return render(request, "analyse/analyse.html", {
+        "analysis_data": analysis_data,
+        "symptom_recommendations": list(filtered_results)[:5]  # 只返回前5条结果
+    })

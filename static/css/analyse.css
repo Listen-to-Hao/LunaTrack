@@ -19,12 +19,12 @@ body {
     max-width: 950px;
     padding: 20px;
     font-family: Arial, sans-serif;
-    
 }
 
-.analyse{
+.analyse {
     margin-top: 50px;
 }
+
 /* 🌟 标题样式 */
 h3 {
     color: #e76f51;
@@ -52,20 +52,19 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
 /* 📊 图表居中 */
 .chart-container {
     width: 100%;
-    min-height: 300px; 
+    min-height: 300px;
     margin: 0 auto;
-    overflow-x: auto; 
+    overflow-x: auto;
 }
 
 canvas {
     display: block;
-    width: 100% !important; 
-    height: auto !important; 
-    min-height: 300px; 
+    width: 100% !important;
+    height: auto !important;
+    min-height: 300px;
 }
 
 /* ⚠️ 提示信息 */
@@ -100,6 +99,51 @@ canvas {
     font-weight: bold;
 }
 
+/* 🌸 基于症状的建议部分 */
+.symptom-recommendations {
+    background: #fef5f5;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.symptom-recommendations h3 {
+    color: #e76f51;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.symptom-recommendations ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.symptom-recommendations li {
+    background: #fff3e0;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: #d84315;
+}
+
+.symptom-recommendations a {
+    color: #e76f51;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.symptom-recommendations a:hover {
+    text-decoration: underline;
+}
+
+.symptom-recommendations p {
+    margin: 5px 0 0;
+    color: #555;
+}
+
 /* 🔥 响应式设计 */
 @media (max-width: 768px) {
     .container.mt-4 {
@@ -119,6 +163,11 @@ canvas {
         margin: 15px 0;
     }
 
+    .symptom-recommendations {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
     canvas {
         min-height: 250px;
     }
@@ -134,6 +183,11 @@ canvas {
     }
 
     .analysis-card {
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .symptom-recommendations {
         padding: 10px;
         margin: 10px 0;
     }
