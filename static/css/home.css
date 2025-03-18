@@ -1,0 +1,99 @@
+/* Homepage Background and Layout */
+.homepage {
+    padding: 60px 0;
+    background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
+    min-height: 100vh;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    padding: 100px 0;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-content {
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  .hero-section h1 {
+    font-family: "Comic Sans MS", "Patrick Hand", "Cute Font", "Quicksand", cursive;
+    font-size: 3.5rem;
+    color: #ff8d71;
+    text-shadow: 2px 2px 4px rgba(244, 255, 97, 0.5);
+  }
+  
+  .hero-section p {
+    font-size: 1.5rem;
+    color: #555;
+  }
+  
+  .hero-image {
+    width: 300px;
+    margin-top: 20px;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Feedback Form */
+  .feedback-section {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 40px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1.5s ease-in-out;
+  }
+  
+  .feedback-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+  }
+  
+  .feedback-form .btn-success {
+    background-color: #4caf50;
+    border: none;
+    font-size: 1.1rem;
+    padding: 10px;
+  }
+  
+  .feedback-form .btn-success:hover {
+    background-color: #45a049;
+  }
+  
+  #feedback-message {
+    color: #4caf50;
+    font-weight: bold;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
