@@ -11,7 +11,7 @@ class Post(models.Model):
     def __str__(self):
         return f"Post by {self.author.username} on {self.created_at}"
 
-    # 点赞和收藏的计数（通过反向查询集）
+    # Like and collection counts (using reverse queryset)
     @property
     def likes_count(self):
         return self.liked_by.count()

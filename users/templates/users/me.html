@@ -3,22 +3,22 @@
 
 {% block content %}
 <div class="d-flex flex-column align-items-center">
-    <!-- 🌸 个人信息卡片 -->
+    <!-- Profile Card -->
     <div class="profile-card">
-        <!-- 头像 -->
+        <!-- Avatar Section -->
         <div class="profile-section avatar-section">
             <div class="avatar-container">
                 <img src="{{ user.avatar.url }}" class="profile-avatar">
             </div>
         </div>
 
-        <!-- 昵称 & 用户名 -->
+        <!-- Nickname & Username -->
         <div class="profile-section info-section">
             <h3 class="nickname">{{ user.nickname|default:user.username }}</h3>
             <p class="text-muted username">@{{ user.username }}</p>
         </div>
 
-        <!-- 健康信息 -->
+        <!-- Health Info Section -->
         <div class="profile-section stats-section">
             <p class="sub stats-section">
                 <span class="label">Height:</span>
@@ -30,13 +30,13 @@
             </p>
         </div>
 
-        <!-- 编辑按钮 -->
+        <!-- Edit Button -->
         <div class="profile-section edit-section">
             <button class="btn btn-outline-pink edit-profile">Edit</button>
         </div>
     </div>
 
-    <!-- 🌸 帖子导航栏 -->
+    <!-- Post Navigation Bar -->
     <nav class="post-tabs">
         <button class="tab-btn active" data-target="created">My Posts</button>
         <button class="tab-btn" data-target="liked">Liked</button>
@@ -44,13 +44,13 @@
         <button class="tab-btn" data-target="collected">Collected</button>
     </nav>
 
-    <!-- 🌸 帖子内容区域（动态更新） -->
+    <!-- Post Content Area (Dynamically Updated) -->
     <div class="post-content">
         <p class="empty-posts">🌸 Loading posts...</p>
     </div>
 </div>
 
-<!-- 🌸 编辑个人信息 Modal -->
+<!-- Edit Profile Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<!-- 🌸 编辑健康信息 Modal -->
+<!-- Edit Health Info Modal -->
 <div class="modal fade" id="editHealthModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -114,7 +114,7 @@
     </div>
 </div>
 
-<!-- ✅ Load External CSS & JS -->
+<!-- Load External CSS & JS -->
 <link rel="stylesheet" href="{% static 'css/me.css' %}">
 <script src="{% static 'js/me.js' %}"></script>
 

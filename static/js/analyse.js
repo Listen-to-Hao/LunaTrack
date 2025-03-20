@@ -83,17 +83,17 @@ document.addEventListener("DOMContentLoaded", function () {
             let labels;
             let data;
 
-            // ✅ 处理 `symptom_analysis`
+            //   `symptom_analysis`
             if (key === "symptom_analysis") {
-                labels = Object.keys(chartData[chartConfigs[key].dataKey]); // 症状名称
-                data = Object.values(chartData[chartConfigs[key].dataKey]); // 频率次数
+                labels = Object.keys(chartData[chartConfigs[key].dataKey]); 
+                data = Object.values(chartData[chartConfigs[key].dataKey]); 
             }
-            // ✅ 处理 `weight_analysis` 和 `mood_analysis`
+            // `weight_analysis`  `mood_analysis`
             else if (chartData.dates) {
-                labels = chartData.dates;  // 日期
-                data = chartData[chartConfigs[key].dataKey];  // 对应的数值
+                labels = chartData.dates;  
+                data = chartData[chartConfigs[key].dataKey];  
             }
-            // ✅ 处理 `cycle_analysis` 和 `blood_analysis`
+            // `cycle_analysis`  `blood_analysis`
             else {
                 labels = chartData[chartConfigs[key].dataKey].map((_, i) => `Data ${i + 1}`);
                 data = chartData[chartConfigs[key].dataKey];
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             console.warn(`⚠️ No data available for ${key}.`);
         }
-        // ✅ **额外显示下一次月经预测**
+        
         if (key === "cycle_analysis" && chartData.next_period_estimate) {
             let cycleCard = document.getElementById(`${key}Chart`).closest(".analysis-card");
             let nextPeriodInfo = document.createElement("p");
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cycleCard.appendChild(nextPeriodInfo);
         }
     });
-    // ✅ 显示基于症状的健康建议
+    
     const symptomRecommendations = document.querySelector(".symptom-recommendations ul");
     if (symptomRecommendations) {
         symptomRecommendations.querySelectorAll("li").forEach(li => {

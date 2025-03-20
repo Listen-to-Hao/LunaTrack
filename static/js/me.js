@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Me.js Loaded");
 
-    // 🌸 获取 CSRF Token
     function getCSRFToken() {
         let cookieValue = null;
         if (document.cookie) {
@@ -15,24 +14,24 @@ document.addEventListener("DOMContentLoaded", function () {
         return cookieValue;
     }
 
-    // 🌸 绑定分类按钮，动态加载帖子
+    // Bind category buttons to dynamically load posts
     document.querySelectorAll(".tab-btn").forEach(button => {
         button.addEventListener("click", function () {
             document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
             this.classList.add("active");
 
-            const postType = this.dataset.target; // 获取帖子类型（created, liked, commented, collected）
+            const postType = this.dataset.target; // Get the post type (created, liked, commented, collected)
             fetchPosts(postType);
         });
     });
 
-    // 🌸 获取帖子数据并更新页面
+    // Get post data and update the page
     function fetchPosts(postType) {
         fetch(`/users/me/posts/?type=${postType}`)
             .then(response => response.json())
             .then(data => {
                 const postContent = document.querySelector(".post-content");
-                postContent.innerHTML = ""; // 清空帖子区域
+                postContent.innerHTML = ""; // Clear the post area
 
                 if (data.posts.length === 0) {
                     postContent.innerHTML = `<p class="empty-posts">🌸 No posts found in ${postType}.</p>`;
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("❌ Error fetching posts:", error));
     }
 
-    // 🌸 生成单个帖子 HTML 结构
+    // Generate single post HTML structure
     function generatePostHTML(post) {
         return `
             <div class="post-card" id="post-${post.id}">
@@ -89,11 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 
-    // 🌸 事件委托，处理点赞、收藏、评论等操作
+    // Event delegation for handling like, collect, comment actions
     document.addEventListener("click", function (event) {
         const target = event.target;
 
-        // ❤️ 点赞
+        // Like
         if (target.closest(".like-btn")) {
             const postId = target.dataset.postId;
             fetch(`/users/posts/${postId}/like/`, {
@@ -111,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("❌ Fetch Error:", error));
         }
 
-        // 🔖 收藏
+        // Collect
         if (target.closest(".collect-btn")) {
             const postId = target.dataset.postId;
             fetch(`/users/posts/${postId}/collect/`, {
@@ -129,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("❌ Fetch Error:", error));
         }
 
-        // 💬 展开评论区
+        // Toggle comment section visibility
         if (target.closest(".comment-btn")) {
             const postId = target.dataset.postId;
             const commentSection = document.getElementById(`comments-${postId}`);
@@ -138,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // ✍️ 提交评论
+        // Submit comment
         if (target.closest(".submit-comment-btn")) {
             const postId = target.dataset.postId;
             const commentInput = document.querySelector(`.comment-input[data-post-id="${postId}"]`);
@@ -175,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("❌ Fetch Error:", error));
         }
 
-        // 🗑️ 删除帖子
+        // Delete post
         if (target.closest(".delete-post-btn")) {
             const postId = target.dataset.postId;
             if (confirm("Are you sure you want to delete this post?")) {
@@ -190,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // 🗑️ 删除评论
+        // Delete comment
         if (target.closest(".delete-comment-btn")) {
             const commentId = target.dataset.commentId;
             if (confirm("Are you sure you want to delete this comment?")) {
@@ -206,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 🌸 绑定 "Edit 个人信息" 按钮
+    // Bind "Edit Profile" button
     const editButton = document.querySelector(".edit-profile");
     const editModal = document.getElementById("editProfileModal");
 
@@ -216,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
             modalInstance.show();
         });
 
-        // 🌸 绑定 "保存个人信息" 按钮
+        // Bind "Save Profile" button
         const saveButton = document.querySelector("#editProfileForm button[type='submit']");
         if (saveButton) {
             saveButton.addEventListener("click", function (event) {
@@ -254,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
-    // 🌸 绑定 "Edit 健康信息" 按钮
+    // Bind "Edit Health Info" button
     const healthEditButton = document.querySelector(".edit-health");
     const healthEditModal = document.getElementById("editHealthModal");
 
@@ -264,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
             healthModalInstance.show();
         });
 
-        // 🌸 绑定 "保存健康信息" 按钮
+        // Bind "Save Health Info" button
         const saveHealthButton = document.querySelector("#editHealthForm button[type='submit']");
         if (saveHealthButton) {
             saveHealthButton.addEventListener("click", function (event) {
@@ -292,6 +291,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 🌸 页面加载时默认加载 "Created" 版块
+    // Load the "Created" section by default on page load
     fetchPosts("created");
 });

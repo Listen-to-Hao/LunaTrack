@@ -7,26 +7,26 @@ import json
 from googleapiclient.discovery import build
 
 def search_symptoms(keyword):
-    """调用Google Search API获取健康建议"""
-    api_key = "AIzaSyBATyhquphIGMpRAlJtYUZZfzI9IDDdQUs"  # 替换为你的API Key
-    search_engine_id = "f5688f439efbf455f"  # 替换为你的Search Engine ID
+    """Calls the Google Search API to get health recommendations"""
+    api_key = "AIzaSyBATyhquphIGMpRAlJtYUZZfzI9IDDdQUs"  
+    search_engine_id = "f5688f439efbf455f"  
 
     try:
         service = build("customsearch", "v1", developerKey=api_key)
         res = service.cse().list(
             q=keyword,
             cx=search_engine_id,
-            num=3,  # 限制每次请求返回3条结果
+            num=3,  # Limit the request to return 3 results at a time
         ).execute()
-        print(f"API Response for '{keyword}':", res)  # 打印 API 响应
+        print(f"API Response for '{keyword}':", res)  # Print the API response
         return res.get("items", [])
     except Exception as e:
-        print(f"❌ API Error for '{keyword}':", e)  # 打印错误信息
+        print(f"API Error for '{keyword}':", e)  # Print the error message
         return []
 
-# 🔹 计算月经周期规律性
+# Function to analyze menstrual cycle regularity
 def analyze_cycle_regularity(user):
-    """分析用户的月经周期规律性，并提供建议"""
+    """Analyzes the user's menstrual cycle regularity and provides suggestions"""
     twelve_months_ago = now().date() - timedelta(days=365)
     records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
@@ -38,7 +38,7 @@ def analyze_cycle_regularity(user):
     std_cycle = np.std(cycle_lengths)
     next_period_estimate = records.last().start_date + timedelta(days=int(avg_cycle))
 
-    # **异常情况检测 & 建议**
+    # Suggestions based on analysis
     suggestions = []
     if std_cycle > 5:
         suggestions.append("Your cycle length varies significantly. Consider tracking stress, diet, and sleep patterns.")
@@ -55,10 +55,9 @@ def analyze_cycle_regularity(user):
         "suggestions": suggestions
     }
 
-
-# 🔹 计算经血量分析
+# Function to analyze blood volume during menstruation
 def analyze_blood_volume(user):
-    """分析用户的血量变化趋势，并提供建议"""
+    """Analyzes the user's blood volume trends and provides suggestions"""
     twelve_months_ago = now().date() - timedelta(days=365)
     records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
@@ -68,7 +67,7 @@ def analyze_blood_volume(user):
     dates = [record.start_date.strftime("%Y-%m-%d") for record in records]
     blood_values = [1 if record.blood_volume == "light" else (2 if record.blood_volume == "medium" else 3) for record in records]
 
-    # **异常情况检测 & 建议**
+    # Suggestions based on analysis
     suggestions = []
     if blood_values.count(3) > len(blood_values) * 0.5:
         suggestions.append("Frequent heavy bleeding may indicate uterine fibroids or hormonal imbalances.")
@@ -81,10 +80,9 @@ def analyze_blood_volume(user):
         "suggestions": suggestions
     }
 
-
-# 🔹 计算症状分析
+# Function to analyze symptom trends
 def analyze_symptoms(user):
-    """分析用户的症状变化趋势，并提供建议"""
+    """Analyzes the user's symptom trends and provides suggestions"""
     twelve_months_ago = now().date() - timedelta(days=365)
     records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
@@ -98,7 +96,7 @@ def analyze_symptoms(user):
                 symptom_trends[symptom] = 0
             symptom_trends[symptom] += 1
 
-    # **异常情况检测 & 建议**
+    # Suggestions based on analysis
     suggestions = []
     if symptom_trends.get("fatigue", 0) > 3:
         suggestions.append("Frequent fatigue may be related to anemia or low iron levels.")
@@ -112,9 +110,9 @@ def analyze_symptoms(user):
         "suggestions": suggestions
     }
 
-# 🔹 计算体重变化趋势
+# Function to analyze weight trends
 def analyze_weight_trend(user):
-    """分析用户的体重变化趋势，并提供建议"""
+    """Analyzes the user's weight trend and provides suggestions"""
     twelve_months_ago = now().date() - timedelta(days=365)
     records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
@@ -124,7 +122,7 @@ def analyze_weight_trend(user):
     dates = [record.start_date.strftime("%Y-%m-%d") for record in records]
     weight_data = [record.weight for record in records]
 
-    # **异常情况检测 & 建议**
+    # Suggestions based on analysis
     suggestions = []
     if max(weight_data) - min(weight_data) > 5:
         suggestions.append("Significant weight changes may impact menstrual regularity. Consider tracking your diet.")
@@ -137,10 +135,9 @@ def analyze_weight_trend(user):
         "suggestions": suggestions
     }
 
-
-# 🔹 计算情绪波动与压力
+# Function to analyze mood and stress trends
 def analyze_mood_stress(user):
-    """分析用户的情绪波动和压力趋势，并提供建议"""
+    """Analyzes the user's mood and stress trends and provides suggestions"""
     twelve_months_ago = now().date() - timedelta(days=365)
     records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
@@ -150,7 +147,7 @@ def analyze_mood_stress(user):
     dates = [record.start_date.strftime("%Y-%m-%d") for record in records]
     stress_levels = [1 if record.stress_level == "low" else (2 if record.stress_level == "medium" else 3) for record in records]
 
-    # **异常情况检测 & 建议**
+    # Suggestions based on analysis
     suggestions = []
     if stress_levels.count(3) > len(stress_levels) * 0.5:
         suggestions.append("Frequent high stress levels may impact your cycle. Consider relaxation techniques.")
@@ -161,11 +158,9 @@ def analyze_mood_stress(user):
         "suggestions": suggestions
     }
 
-
-
-
+# Function to render the analysis page and provide health recommendations
 def analyse_view(request):
-    """渲染分析页面，并提供健康建议"""
+    """Renders the analysis page and provides health recommendations"""
     user = request.user
     analysis_data = {
         "cycle_analysis": analyze_cycle_regularity(user),
@@ -175,23 +170,22 @@ def analyse_view(request):
         "mood_analysis": analyze_mood_stress(user),
     }
 
-    # ✅ 确保每个分析结果都有 `suggestions` 键
+    # Ensure every analysis result has the 'suggestions' key
     for key, value in analysis_data.items():
         if "suggestions" not in value:
-            value["suggestions"] = []  # 确保 suggestions 存在
+            value["suggestions"] = []  # Ensure suggestions key exists
 
-        # ✅ 预先转换为 JSON 以避免前端解析问题
+        # Convert to JSON to avoid frontend parsing issues
         if not value.get("error"):
             value["json_data"] = json.dumps(value)
-        
     
-    # 提取症状数据
+    # Extract symptom data
     twelve_months_ago = now().date() - timedelta(days=365)
     records = MenstrualRecord.objects.filter(user=user, start_date__gte=twelve_months_ago).order_by("start_date")
 
     symptom_keywords = set()
     for record in records:
-        # 过滤掉 "other"
+        # Filter out "other" symptoms
         symptoms = [
             symptom for symptom in record.pre_menstrual_symptoms + record.menstrual_symptoms + record.post_menstrual_symptoms
             if symptom != "other"
@@ -200,7 +194,7 @@ def analyse_view(request):
         if record.symptom_description and record.symptom_description.lower() != "other":
             symptom_keywords.add(record.symptom_description)
 
-    # 扩展关键词
+    # Expand keywords for search
     extended_keywords = set()
     for keyword in symptom_keywords:
         extended_keywords.add(keyword)
@@ -215,13 +209,13 @@ def analyse_view(request):
         elif keyword == "mood_swings":
             extended_keywords.add("how to manage mood swings during period")
 
-    # 调用 API 获取健康建议
+    # Call API to get health recommendations
     search_results = []
     for keyword in extended_keywords:
         results = search_symptoms(keyword)
         search_results.extend(results)
 
-    # 去重和过滤
+    # Remove duplicates and filter results
     unique_results = {result["link"]: result for result in search_results}.values()
     filtered_results = [
         result for result in unique_results
@@ -230,5 +224,5 @@ def analyse_view(request):
 
     return render(request, "analyse/analyse.html", {
         "analysis_data": analysis_data,
-        "symptom_recommendations": list(filtered_results)[:5]  # 只返回前5条结果
+        "symptom_recommendations": list(filtered_results)[:5]  # Only return the first 5 results
     })

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let searchBtn = document.getElementById("searchBtn");
     let searchInput = document.getElementById("searchInput");
 
-    /** ✅ 获取 CSRF Token **/
+    /** CSRF Token **/
     function getCSRFToken() {
         let cookieValue = null;
         if (document.cookie) {
@@ -23,12 +23,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return cookieValue;
     }
 
-    /** ✅ 检查用户是否已登录 **/
+    /** Check if the user is logged in **/
     function isUserLoggedIn() {
         return document.body.dataset.userAuthenticated === "true";
     }
 
-    /** ✅ 加载帖子 **/
+    /** Load posts **/
     function loadPosts(isSearch = false) {
         let url = `/discover/posts/?page=${page}&q=${searchQuery}`;
         fetch(url)
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 if (data.posts.length === 0 && isSearch) {
-                    // 显示没有找到内容的提示
+                    // Display no results message
                     postList.innerHTML = `
                         <div class="no-results">
                             <p>The content you are looking for is not found.</p>
@@ -107,40 +107,40 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    /** ✅ 监听搜索按钮 **/
+    /** Listen for search button click **/
     searchBtn.addEventListener("click", function () {
         searchQuery = searchInput.value.trim();
         if (searchQuery) {
-            page = 1; // 重置页码
-            loadPosts(true); // 加载搜索结果
+            page = 1; // Reset page number
+            loadPosts(true); // Load search results
         }
     });
 
-    /** ✅ 监听返回按钮 **/
+    /** Listen for back button click **/
     document.getElementById("backBtn").addEventListener("click", function () {
-        searchQuery = ""; // 清空搜索内容
-        searchInput.value = ""; // 清空输入框
-        page = 1; // 重置页码
-        loadPosts(); // 重新加载所有帖子
-        this.style.display = "none"; // 隐藏返回按钮
+        searchQuery = ""; // Clear search query
+        searchInput.value = ""; // Clear search input field
+        page = 1; // Reset page number
+        loadPosts(); // Reload all posts
+        this.style.display = "none"; // Hide back button
     });
 
-    /** ✅ 监听"加载更多"按钮 **/
+    /**  Listen for "Load More" button click **/
     loadMoreBtn.addEventListener("click", function () {
         page += 1;
         loadPosts();
     });
 
-    /** ✅ 监听添加帖子按钮（未登录用户跳转登录页） **/
+    /**  Listen for "Add Post" button click (redirects to login page for non-logged-in users) **/
     document.getElementById("addPostBtn").addEventListener("click", function () {
         if (!isUserLoggedIn()) {
-            window.location.href = "/users/login/"; // 跳转到登录页面
+            window.location.href = "/users/login/"; // Redirect to login page
         } else {
             modal.show();
         }
     });
 
-    /** ✅ 监听发帖表单提交 **/
+    /**  Listen for post form submit **/
     document.getElementById("postForm").addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -172,9 +172,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             if (data.success) {
                 modal.hide();
-                postList.innerHTML = ""; // 清空当前帖子列表
-                page = 1; // 重置页码
-                loadPosts(); // 重新加载帖子列表
+                postList.innerHTML = ""; // Clear current post list
+                page = 1; // Reset page number
+                loadPosts(); // Reload post list
             } else {
                 alert("❌ " + data.message);
             }
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    /** ✅ 监听评论按钮（展开/折叠评论区） **/
+    /**  Listen for comment button click (toggle comment section) **/
     document.addEventListener("click", function (event) {
         if (event.target.classList.contains("comment-btn")) {
             let postId = event.target.getAttribute("data-id");
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    /** ✅ 监听提交评论按钮（未登录用户无法评论） **/
+    /**  Listen for submit comment button click (non-logged-in users cannot comment) **/
     document.addEventListener("click", function (event) {
         if (event.target.classList.contains("submit-comment-btn")) {
             if (!isUserLoggedIn()) {
@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById(`comments-${postId}`).querySelector(".comment-list").appendChild(commentElement);
                     inputField.value = "";
 
-                    // 更新评论数量
+                    // Update comment count
                     let commentBtn = document.querySelector(`.comment-btn[data-id="${postId}"]`);
                     commentBtn.innerHTML = `💬 ${data.comments_count}`;
                 } else {
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    /** ✅ 监听点赞 & 收藏 **/
+    /**  Listen for like & collect button click **/
     document.addEventListener("click", function (event) {
         if (!isUserLoggedIn()) {
             alert("❌ You must be logged in to like, collect, search posts and post comment.");
@@ -315,6 +315,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    /** ✅ 初始化加载帖子 **/
+    /**  Initialize loading posts **/
     loadPosts();
 });

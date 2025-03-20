@@ -1,4 +1,4 @@
-/* 🌸 页面背景 */
+
 html, body {
     height: 100%;
     margin: 0;
@@ -22,7 +22,7 @@ body {
     margin-top: 50px;
 }
 
-/* 🌸 个人信息卡片 */
+
 .profile-card {
     display: flex;
     align-items: center;
@@ -39,7 +39,7 @@ body {
     width: 100%;
 }
 
-/* 🌸 头像部分 */
+
 .avatar-section {
     flex: 0 0 10%;
     display: flex;

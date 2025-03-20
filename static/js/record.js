@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let recordForm = document.getElementById("recordForm");
     let recordId = null;
 
-    // ✅ 获取 CSRF Token
     function getCSRFToken() {
         let cookieValue = null;
         if (document.cookie) {
@@ -28,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return cookieValue;
     }
 
-    // ✅ 确保 End Date 不能早于 Start Date
+    // Ensure End Date is not earlier than Start Date
     let startDateInput = document.getElementById("start_date");
     let endDateInput = document.getElementById("end_date");
 
@@ -38,24 +37,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ✅ 重置表单
+    // Reset form
     function resetForm() {
         document.getElementById("recordForm").reset();
     }
 
-    // ✅ 绑定 "Add" 按钮
+    // Bind "Add" button
     let addButton = document.querySelector(".add-btn");
     if (addButton) {
         addButton.addEventListener("click", function () {
             recordId = null;
-            resetForm();  // 🔥 **修复调用错误**
+            resetForm();  // 🔥 **Fixing function call error**
             modal.show();
         });
     } else {
         console.error("❌ Add button not found!");
     }
 
-    // ✅ 绑定 "Edit" 按钮
+    // Bind "Edit" button
     document.querySelectorAll(".edit-btn").forEach(button => {
         button.addEventListener("click", function () {
             recordId = button.getAttribute("data-id");
@@ -69,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         document.getElementById("clotting").value = data.clotting;
                         document.getElementById("mood_swings").value = data.mood_swings;
                         document.getElementById("stress_level").value = data.stress_level;
-                        document.getElementById("weight").value = data.weight; // 加载体重数据
+                        document.getElementById("weight").value = data.weight; // Load weight data
                         document.getElementById("symptom_description").value = data.symptom_description;
                         modal.show();
                     } else {
@@ -80,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // ✅ 绑定 "Delete" 按钮
+    // Bind "Delete" button
     document.querySelectorAll(".delete-btn").forEach(button => {
         button.addEventListener("click", function () {
             let recordId = button.getAttribute("data-id");
@@ -105,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // ✅ 绑定 "Search" 按钮
+    // Bind "Search" button
     let searchBtn = document.getElementById("search-btn");
     let confirmSearch = document.getElementById("confirmSearch");
 
@@ -119,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ✅ 绑定 "Search Confirm" 按钮
+    // Bind "Search Confirm" button
     if (confirmSearch) {
         confirmSearch.addEventListener("click", function () {
             let inputMonth = document.getElementById("searchMonth").value;
@@ -132,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let found = false;
             let firstRecord = null;
 
-            // 🌟 **支持缩写和完整月份的映射**
+            // **Supports both abbreviated and full month names**
             let monthMap = {
                 "Jan.": "01", "January": "01", "Feb.": "02", "February": "02",
                 "Mar.": "03", "March": "03", "Apr.": "04", "April": "04",
@@ -147,16 +146,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (dateElement) {
                     let dateText = dateElement.textContent.trim();
                     
-                    // 🌟 **新的正则表达式匹配完整月份和缩写**
+                    // **New regex to match both full and abbreviated months**
                     let match = dateText.match(/\b([A-Za-z]+\.?) (\d{1,2}), (\d{4})\b/);
                     if (match) {
-                        let month = match[1];  // 可能是 "Jan." 或 "January"
-                        let year = match[3];   // 年份
+                        let month = match[1];  // Could be "Jan." or "January"
+                        let year = match[3];   // Year
                         let formattedMonth = `${year}-${monthMap[month]}`;
 
                         if (formattedMonth === inputMonth) {
                             if (!firstRecord) {
-                                firstRecord = record; // 记录第一条匹配的记录
+                                firstRecord = record; // Record the first matching record
                             }
                         }
                     }
@@ -176,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ✅ 表单提交
+    // Form submission
     recordForm.addEventListener("submit", function (event) {
         event.preventDefault();
         let formData = new FormData(recordForm);

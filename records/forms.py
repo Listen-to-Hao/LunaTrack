@@ -1,5 +1,5 @@
 from django import forms
-from .models import MenstrualRecord  # ✅ 确保只导入 MenstrualRecord
+from .models import MenstrualRecord  
 
 class MenstrualRecordForm(forms.ModelForm):
     SYMPTOM_CHOICES = [
@@ -25,10 +25,10 @@ class MenstrualRecordForm(forms.ModelForm):
             "start_date", "end_date", "blood_volume", "clotting",
             "mood_swings", "stress_level", "pre_menstrual_symptoms",
             "menstrual_symptoms", "post_menstrual_symptoms", "symptom_description",
-            "weight"  # 添加体重字段
+            "weight"  
         ]
         widgets = {
-            "weight": forms.NumberInput(attrs={"step": "0.1"}),  # 允许输入小数
+            "weight": forms.NumberInput(attrs={"step": "0.1"}),  
         }
 
     def clean_pre_menstrual_symptoms(self):

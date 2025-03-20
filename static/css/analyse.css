@@ -1,4 +1,4 @@
-/* 🌸 页面背景 */
+/* Page Background */
 html, body {
     height: 100%;
     margin: 0;
@@ -6,8 +6,8 @@ html, body {
 }
 
 body {
-    background: linear-gradient(to bottom, #ffe4e1, #ffb6c1);
-    background-attachment: fixed;
+    background: linear-gradient(to bottom, #ffe4e1, #ffb6c1); /* Gradient from light pink to peach */
+    background-attachment: fixed; /* Fix background to viewport */
     font-family: 'Arial', sans-serif;
     min-height: 100vh;
     display: flex;
@@ -25,7 +25,7 @@ body {
     margin-top: 50px;
 }
 
-/* 🌟 标题样式 */
+/* Title Styles */
 h3 {
     color: #e76f51;
     text-align: center;
@@ -43,7 +43,7 @@ h2 {
     text-shadow: 2px 2px 4px rgba(244, 255, 97, 0.5);
 }
 
-/* 🩸 分析卡片 */
+/* Analysis Card */
 .analysis-card {
     background: #fef5f5;
     border-radius: 8px;
@@ -52,7 +52,7 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 📊 图表居中 */
+/* Chart Container */
 .chart-container {
     width: 100%;
     min-height: 300px;
@@ -67,7 +67,7 @@ canvas {
     min-height: 300px;
 }
 
-/* ⚠️ 提示信息 */
+/* Alert Message */
 .alert {
     text-align: center;
     background: #ffebcc;
@@ -78,7 +78,7 @@ canvas {
     margin: 10px 0;
 }
 
-/* 🔥 建议列表 */
+/* Suggestions List */
 .suggestions {
     list-style-type: none;
     padding: 0;
@@ -99,7 +99,7 @@ canvas {
     font-weight: bold;
 }
 
-/* 🌸 基于症状的建议部分 */
+/* Symptom-based Recommendations */
 .symptom-recommendations {
     background: #fef5f5;
     border-radius: 8px;
@@ -144,7 +144,7 @@ canvas {
     color: #555;
 }
 
-/* 🔥 响应式设计 */
+/* Responsive Design */
 @media (max-width: 768px) {
     .container.mt-4 {
         padding: 10px;

@@ -7,10 +7,10 @@
 <div class="analyse">
     <h2>Menstrual Health Analysis</h2>
 
-    <!-- 显示每个分析模块 -->
     {% for key, data in analysis_data.items %}
         {% if data.error %}
-            <div class="alert">⚠️ {{ data.error }}</div>
+            <!-- Display an alert if there is an error in the data -->
+            <div class="alert">{{ data.error }}</div>
         {% else %}
             <div class="analysis-card">
                 <h3>
@@ -22,35 +22,36 @@
                     {% endif %}
                 </h3>
 
-                <!-- 图表容器 -->
+                <!-- Chart container to display the data -->
                 <canvas id="{{ key }}Chart"></canvas>
 
-                <!-- 传递数据给前端 -->
+                <!-- Passing the data to the frontend -->
                 <script id="{{ key }}Data" type="application/json">
                     {{ data.json_data|safe }}
                 </script>
 
-                <!-- 显示建议 -->
+                <!-- Display suggestions if there are any -->
                 {% if data.suggestions %}
                     <ul class="suggestions">
                         {% for suggestion in data.suggestions %}
-                            <li>⚠️ {{ suggestion }}</li>
+                            <li>{{ suggestion }}</li>
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="no-suggestions">✅ Everything looks good!</p>
+                    <p class="no-suggestions">Everything looks good!</p>
                 {% endif %}
             </div>
         {% endif %}
     {% endfor %}
 
-    <!-- 基于症状的健康建议 -->
+    <!-- Display health recommendations based on symptoms -->
     <div class="symptom-recommendations">
         <h3>Health Recommendations Based on Your Symptoms</h3>
         {% if symptom_recommendations %}
             <ul>
                 {% for result in symptom_recommendations %}
                     <li>
+                        <!-- Link to health recommendations based on symptoms -->
                         <a href="{{ result.link }}" target="_blank">{{ result.title }}</a>
                         <p>{{ result.snippet }}</p>
                     </li>
@@ -62,8 +63,9 @@
     </div>
 </div>
 
-<!-- 引入 Chart.js 和自定义脚本 -->
+<!-- Include Chart.js for rendering charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Include custom JavaScript for the analysis page -->
 <script src="{% static 'js/analyse.js' %}"></script>
 
 {% endblock %}

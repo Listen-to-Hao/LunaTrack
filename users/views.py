@@ -7,12 +7,13 @@ from .models import UserProfile
 from .forms import RegisterForm, UserProfileForm, EditProfileForm
 from community.models import Post, Comment
 
-# 🌸 获取帖子数据
+# View for fetching posts based on user activity (created, liked, commented, collected)
 @login_required
 def get_posts(request):
-    post_type = request.GET.get("type", "created")
+    post_type = request.GET.get("type", "created")  # Default to "created" posts
     user = request.user
 
+    # Fetch posts based on the type (created, liked, commented, or collected)
     if post_type == "created":
         posts = Post.objects.filter(author=user)
     elif post_type == "liked":
@@ -24,6 +25,7 @@ def get_posts(request):
     else:
         return JsonResponse({"error": "Invalid post type"}, status=400)
 
+    # Serialize the posts data to JSON format for response
     posts_data = [
         {
             "id": post.id,
@@ -52,12 +54,12 @@ def get_posts(request):
 
     return JsonResponse({"posts": posts_data})
 
-
-# 🌸 点赞帖子
+# Like a post
 @login_required
 def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
+    # Toggle like status
     if post.liked_by.filter(id=request.user.id).exists():
         post.liked_by.remove(request.user)
         liked = False
@@ -71,11 +73,12 @@ def like_post(request, post_id):
         "likes": post.likes_count
     })
 
-# 🌸 收藏帖子
+# Collect a post
 @login_required
 def collect_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
 
+    # Toggle collect status
     if post.collected_by.filter(id=request.user.id).exists():
         post.collected_by.remove(request.user)
         collected = False
@@ -89,7 +92,7 @@ def collect_post(request, post_id):
         "collections": post.collections_count
     })
 
-# 🌸 发布评论
+# Post a comment on a post
 @login_required
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -114,35 +117,34 @@ def post_comment(request, post_id):
 
     return JsonResponse({"success": False, "message": "Invalid request method."}, status=400)
 
-# 🌸 删除帖子
+# Delete a post
 @login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, author=request.user)
     post.delete()
     return JsonResponse({"success": True, "message": "Post deleted successfully!"})
 
-# 🌸 删除评论
+# Delete a comment
 @login_required
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id, author=request.user)
     comment.delete()
     return JsonResponse({"success": True, "message": "Comment deleted successfully!"})
 
-# 🌸 用户注册
+# User registration view
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user)  # Log the user in after successful registration
             return redirect("home")
     else:
         form = RegisterForm()
     
-    # 将表单和错误信息传递给模板
     return render(request, "users/register.html", {"form": form})
 
-# 🌸 用户登录
+# User login view
 def user_login(request):
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -154,22 +156,19 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, "users/login.html", {"form": form})
 
-# 🌸 用户登出
+# User logout view
 def user_logout(request):
     logout(request)
     return redirect("home")
 
-# 🌸 个人主页
+# User profile view
 @login_required
 def me_view(request):
     user = request.user
-
-    context = {
-        "user": user,
-    }
+    context = {"user": user}
     return render(request, "users/me.html", context)
 
-# 🌸 编辑个人信息
+# Edit user profile view
 @login_required
 def edit_profile(request):
     if request.method == "POST":
@@ -177,7 +176,7 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, request.FILES, instance=user)
 
         if form.is_valid():
-            form.save()
+            form.save()  # Save the updated profile
             return JsonResponse({"success": True, "message": "Profile updated successfully!"})
         else:
             return JsonResponse({"success": False, "errors": form.errors}, status=400)

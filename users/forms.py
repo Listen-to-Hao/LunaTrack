@@ -12,24 +12,26 @@ class RegisterForm(UserCreationForm):
         fields = ["username", "nickname", "email", "password1", "password2"]
 
     def clean_email(self):
+        # Ensure that the email is unique by checking if it already exists in the database.
         email = self.cleaned_data.get("email")
         if UserProfile.objects.filter(email=email).exists():
             raise ValidationError("This email is already registered.")
         return email
 
     def clean_password1(self):
+        # Ensure that the password is at least 8 characters long.
         password1 = self.cleaned_data.get("password1")
         if len(password1) < 8:
             raise ValidationError("Password must be at least 8 characters long.")
         return password1
-    
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ["avatar", "nickname", "height", "age_group"]
 
 class EditProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(required=False)  # ✅ 允许头像不更改
+    avatar = forms.ImageField(required=False)  # ✅ Allows the avatar to remain unchanged if not provided
     nickname = forms.CharField(required=False)
     height = forms.FloatField(required=False)
     age_group = forms.ChoiceField(choices=UserProfile.AGE_GROUPS, required=False)
@@ -39,29 +41,29 @@ class EditProfileForm(forms.ModelForm):
         fields = ["nickname", "avatar", "height", "age_group"]
 
     def clean_avatar(self):
-        """ 确保用户不上传头像时不会清空字段 """
+        """ Ensure that the avatar field isn't cleared if no new avatar is uploaded """
         avatar = self.cleaned_data.get("avatar")
         if not avatar:
-            return self.instance.avatar  # ✅ 返回已有的头像，而不是 `None`
+            return self.instance.avatar  # Keeps the existing avatar if none is uploaded
         return avatar
 
     def clean_nickname(self):
-        """ 确保用户不修改昵称时，保留原昵称 """
+        """ Ensure that the nickname field keeps the original nickname if no new one is provided """
         nickname = self.cleaned_data.get("nickname")
         if not nickname:
-            return self.instance.nickname
+            return self.instance.nickname  # Keeps the existing nickname if none is provided
         return nickname
 
     def clean_height(self):
-        """ 允许 height 为空 """
+        """ Allow height to remain empty, using the existing value if not provided """
         height = self.cleaned_data.get("height")
         if height is None:
-            return self.instance.height
+            return self.instance.height  # Keeps the existing height if not provided
         return height
 
     def clean_age_group(self):
-        """ 允许 age_group 为空 """
+        """ Allow age group to remain empty, using the existing value if not provided """
         age_group = self.cleaned_data.get("age_group")
         if not age_group:
-            return self.instance.age_group
+            return self.instance.age_group  # Keeps the existing age group if not provided
         return age_group

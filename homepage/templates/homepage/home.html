@@ -3,20 +3,71 @@
 {% block content %}
   <div class="homepage">
     <!-- Hero Section -->
-    <div class="hero-section text-center">
-      <div class="hero-content">
-        <h1 class="display-4">Welcome to LunaTrack</h1>
-        <p class="lead">Your Smart Health Companion</p>
-        <img src="{% static 'images/hero-image.png' %}" alt="Health Illustration" class="hero-image">
+    <div class="hero-section">
+      <div class="container">
+        <div class="row no-gutters justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="hero-content text-center p-4">
+              <h1 class="display-4 ">Welcome to LunaTrack</h1>
+              <p class="lead">Care about menstrual problems Care about women's health</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="introduction-section">
+      <div class="section">
+        <div class="text-content">
+          <h2>Record and analyze full text information</h2>
+          <p>
+            Our platform provides female users with a convenient tool for recording and tracking retrospective cycles. Through intelligent algorithms, you can not only easily enter the start and end dates of the retrospective, but also get statistical analysis and trend charts of the cycle. The system will provide you with accurate predictions based on your personal data to help you better manage your health.
+          </p>
+        </div>
+        <div class="image-content">
+          <img src="{% static 'images/homepage_2.jpg' %}" alt="Section 1 Image">
+        </div>
+      </div>
+    
+      <div class="section">
+        <div class="image-content">
+          <img src="{% static 'images/homepage_3.jpg' %}" alt="Section 2 Image">
+        </div>
+        <div class="text-content">
+          <h2>Menstrual health analysis and suggestions</h2>
+          <p>
+            Combined with your recorded menstrual data, our analysis function provides a detailed health report covering multiple health indicators such as cycle regularity and menstrual symptoms. The platform will provide personalized suggestions and reminders based on the analysis results to help you stay healthy, detect possible health problems in time, and avoid unnecessary worries.
+          </p>
+        </div>
+      </div>
+    
+      <div class="section">
+        <div class="text-content">
+          <h2>Women's Health Community</h2>
+          <p>
+            We are committed to creating a platform for support and sharing for female users. In the community, you can post about health, menstruation, lifestyle, etc., and share experiences and insights with other women. This is a warm and safe space that encourages everyone to support each other and pay attention to and improve women's health.
+          </p>
+        </div>
+        <div class="image-content">
+          <img src="{% static 'images/homepage_4.jpg' %}" alt="Section 3 Image">
+        </div>
       </div>
     </div>
 
     <!-- Feedback Section -->
-    <div class="feedback-section mt-5">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-6">
-            <h2 class="text-center mb-4">We Value Your Feedback</h2>
+    <div class="feedback-section">
+      <p class="feedback-link" data-bs-toggle="modal" data-bs-target="#feedbackModal">Feedback</p>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="feedbackModalLabel">We Value Your Feedback</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
             <form method="post" class="feedback-form">
               {% csrf_token %}
               <div class="form-group">
@@ -28,14 +79,17 @@
               <div class="form-group">
                 {{ form.message }}
               </div>
+              <div class="form-group">
+                {{ form.rating }}
+              </div>
               <button type="submit" class="btn btn-success btn-block">Submit Feedback</button>
             </form>
-            <div id="feedback-message" class="mt-3 text-center"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
-  <script src="{% static 'js/home.js' %}"></script>  
+  <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

@@ -13,7 +13,7 @@
                 
                 <div class="record-info">
                     <span class="info-item blood">🩸 <strong>Blood:</strong> {{ record.get_blood_volume_display }}</span>
-                    <span class="info-item weight">📊 <strong>Weight:</strong> {{ record.weight }} kg</span> <!-- 添加体重信息 -->
+                    <span class="info-item weight">📊 <strong>Weight:</strong> {{ record.weight }} kg</span> 
                     <span class="info-item clotting">🧬 <strong>Clotting:</strong> {{ record.get_clotting_display }}</span>
                     <span class="info-item mood">😡 <strong>Mood:</strong> {{ record.get_mood_swings_display }}</span>
                     <span class="info-item stress">😰 <strong>Stress:</strong> {{ record.get_stress_level_display }}</span>
@@ -52,13 +52,13 @@
     </div>
 </div>
 
-<!-- 🔹 Floating Buttons -->
+<!--  Floating Buttons -->
 <div class="floating-buttons">
     <button class="btn btn-primary add-btn">➕</button>
     <button id="search-btn" class="btn btn-secondary search-btn">🔍</button>
 </div>
 
-<!-- ✅ Add / Edit Modal -->
+<!--  Add / Edit Modal -->
 <div class="modal fade" id="recordModal" tabindex="-1">
     <div class="modal-dialog modal-lg"> 
         <div class="modal-content">
@@ -81,7 +81,6 @@
                         <option value="heavy">Heavy</option>
                     </select>
 
-                    <!-- 添加体重输入字段 -->
                     <label for="weight">Weight (kg):</label>
                     <input type="number" id="weight" name="weight" class="form-control" step="0.1" required>
 
@@ -107,7 +106,7 @@
                         <option value="high">High</option>
                     </select>
 
-                    <!-- ✅ Pre-menstrual Symptoms -->
+                    <!--  Pre-menstrual Symptoms -->
                     <label>Pre-menstrual Symptoms: <small>(Optional, multiple selections)</small></label>
                     <div class="symptom-options d-flex flex-wrap">
                         {% for value, label in symptom_choices %}
@@ -117,7 +116,7 @@
                         {% endfor %}
                     </div>
 
-                    <!-- ✅ Menstrual Symptoms -->
+                    <!--  Menstrual Symptoms -->
                     <label>Menstrual Symptoms: <small>(Optional, multiple selections)</small></label>
                     <div class="symptom-options d-flex flex-wrap">
                         {% for value, label in symptom_choices %}
@@ -127,7 +126,7 @@
                         {% endfor %}
                     </div>
 
-                    <!-- ✅ Post-menstrual Symptoms -->
+                    <!--  Post-menstrual Symptoms -->
                     <label>Post-menstrual Symptoms: <small>(Optional, multiple selections)</small></label>
                     <div class="symptom-options d-flex flex-wrap">
                         {% for value, label in symptom_choices %}
@@ -149,7 +148,7 @@
     </div>
 </div>
 
-<!-- ✅ Search Modal -->
+<!--  Search Modal -->
 <div class="modal fade" id="searchModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -168,8 +167,8 @@
     </div>
 </div>
 
-<!-- ✅ Load External CSS -->
+<!--  Load External CSS -->
 <link rel="stylesheet" href="{% static 'css/record.css' %}">
-<!-- ✅ Load External JS -->
+<!--  Load External JS -->
 <script src="{% static 'js/record.js' %}"></script>
 {% endblock %}
