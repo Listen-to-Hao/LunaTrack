@@ -39,7 +39,7 @@ class DummyAnalysisModel(models.Model):
     notes = models.TextField(blank=True, verbose_name="Additional Notes")
 
     class Meta:
-        managed = False  
+        #managed = False  
         verbose_name = "Dummy Analysis Model"
         verbose_name_plural = "Dummy Analysis Models"
         ordering = ['-analysis_date'] 

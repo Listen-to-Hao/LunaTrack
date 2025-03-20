@@ -52,6 +52,9 @@ def edit_record(request, pk):
     })
 
 def delete_record(request, pk):
-    record = get_object_or_404(MenstrualRecord, pk=pk, user=request.user)
-    record.delete()
-    return JsonResponse({"success": True, "message": "Record deleted successfully"})
+    try:
+        record = get_object_or_404(MenstrualRecord, pk=pk, user=request.user)
+        record.delete()
+        return JsonResponse({"success": True, "message": "Record deleted successfully"})
+    except Exception as e:
+        return JsonResponse({"success": False, "message": str(e)}, status=500)
